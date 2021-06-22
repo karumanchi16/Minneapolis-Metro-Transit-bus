@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import AutoComplete from "./components/AutoComplete";
 
+const options = ["1", "2", "3"];
+const values = [
+  { label: "1", value: "one" },
+  { label: "2", value: "two" },
+  { label: "3", value: "three" },
+  { label: "4", value: "four" },
+];
 function App() {
+  const [value, setValue] = useState(values[1]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App-Body">
+      {value.value}
+      <AutoComplete options={values} defaultValue={value} onChange={setValue} />
     </div>
   );
 }
