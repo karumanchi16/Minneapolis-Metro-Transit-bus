@@ -13,7 +13,6 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
   const optionsListRef = useRef(null);
 
   const scrollView = (scrollPosition) => {
-    console.log("scrollPosition:", scrollPosition);
     optionsListRef?.current?.parentNode.scrollTo({
       top: scrollPosition,
       behavior: "smooth",
@@ -48,7 +47,6 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
   };
 
   const resetInputValue = () => {
-    console.log("reset");
     setInputValue("");
     onChange("");
   };
@@ -62,13 +60,6 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
       setCursor((val) => (val > 0 ? val - 1 : 0));
     }
     if (e.key === "ArrowDown") {
-      console.log(
-        isVisible,
-        "filterdOptions length: ",
-        filterdOptions.length,
-        "cursor:",
-        cursor
-      );
       isVisible
         ? setCursor((val) => (val < filterdOptions.length - 1 ? val + 1 : val))
         : setIsVisible(true);
@@ -82,7 +73,6 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
   };
 
   useEffect(() => {
-    console.log(cursor);
     if (cursor < 0 || cursor > filterdOptions.length || !optionsListRef) return;
     const optionList = Array.from(optionsListRef.current.children);
     optionList[cursor] && scrollView(optionList[cursor].offsetTop);

@@ -57,9 +57,11 @@ button.Auto-Complete-Caret:focus,
   box-shadow: 0 2px 5px rgb(0 0 0 / 28%);
 }
 
-.Options-List .selected {
+.Options-List .selected,
+.Options-List .list:hover {
   background-color: cadetblue;
 }
+
 .Options-List .list {
   position: relative;
   display: block;
