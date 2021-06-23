@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./App.css";
 import AutoComplete from "./components/AutoComplete";
 
-const options = ["1", "2", "3"];
 const values = [
   { label: "1", value: "one" },
   { label: "2", value: "two" },
