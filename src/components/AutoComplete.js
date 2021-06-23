@@ -49,6 +49,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
     return () => {
       window.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
