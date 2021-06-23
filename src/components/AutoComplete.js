@@ -6,7 +6,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
 
   const [inputValue, setInputValue] = useState(getValue(defaultValue));
   const [displayOptions, setDisplayOptions] = useState(false);
-  const [cursor, setCursor] = useState(-1);
+  //   const [cursor, setCursor] = useState(-1);
   const autocompleteContainerRef = useRef(null);
 
   const handleOnChange = (e) => setInputValue(e.target.value);
