@@ -3,7 +3,7 @@ import "./App.css";
 import AutoComplete from "./components/AutoComplete";
 
 const values = [
-  { label: "1", value: "Jian Jiang" },
+  { label: "1", value: "one" },
   { label: "2", value: "two" },
   { label: "3", value: "three" },
   { label: "4", value: "four" },
