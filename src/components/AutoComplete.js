@@ -5,7 +5,7 @@ import "./AutoComplete.css";
 function AutoComplete({ defaultValue = "", onChange, options = [] }) {
   const getValue = (option) => option.value || option;
 
-  const [inputValue, setInputValue] = useState(getValue(defaultValue));
+  const [inputValue, setInputValue] = useState(() => getValue(defaultValue));
   const [isVisible, setIsVisible] = useState(false);
   const [cursor, setCursor] = useState(-1);
 
@@ -19,7 +19,10 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
     });
   };
 
-  const handleOnChange = (e) => setInputValue(e.target.value);
+  const handleOnChange = (e) => {
+    setInputValue(e.target.value);
+    if (!e.target.value) onChange("");
+  };
 
   const filterdOptions = useMemo(() => {
     if (!inputValue) return options;
@@ -42,8 +45,8 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
       !autocompleteContainerRef.current.contains(e.target)
     ) {
       setIsVisible(false);
+      setCursor(-1);
     }
-    //if (!inputValue) onChange(""); // handling edge case while user can select and again remove
   };
 
   const resetInputValue = () => {
@@ -55,7 +58,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
   const handleCaretButton = () => setIsVisible((isVisible) => !isVisible);
 
   const handleOnKeyDown = (e) => {
-    // handle up, down, enter, and escape
+    // handle up, down, enter, and escape keys
     if (e.key === "ArrowUp") {
       setCursor((val) => (val > 0 ? val - 1 : 0));
     }
@@ -88,24 +91,28 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
   return (
     <div ref={autocompleteContainerRef} className="Auto-Complete">
       <div className="Auto-Complete-Input-Wrap">
-        <input
-          type="text"
-          name="input"
-          className="Auto-Complete-Input"
-          value={inputValue}
-          onChange={handleOnChange}
-          onClick={handleOnClick}
-          onKeyDown={handleOnKeyDown}
-        />
-        <button
-          className={`Auto-Complete-Caret ${isVisible ? "open" : "close"}`}
-          onClick={handleCaretButton}
-        >
-          &#9660;
-        </button>
-        <button className="Auto-Complete-Clear" onClick={handleClearButton}>
-          &#10006;
-        </button>
+        <div className="Input-Container">
+          <input
+            type="text"
+            name="input"
+            className="Auto-Complete-Input"
+            value={inputValue}
+            onChange={handleOnChange}
+            onClick={handleOnClick}
+            onKeyDown={handleOnKeyDown}
+          />
+        </div>
+        <div className="Input-Buttons-Container">
+          <button
+            className={`Auto-Complete-Caret ${isVisible ? "open" : "close"}`}
+            onClick={handleCaretButton}
+          >
+            &#9660;
+          </button>
+          <button className="Auto-Complete-Clear" onClick={handleClearButton}>
+            &#10006;
+          </button>
+        </div>
       </div>
       <div className="Filtered-Options">
         <ul className="Options-List" ref={optionsListRef}>
@@ -125,7 +132,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
                 );
               })
             ) : (
-              <p>No Options</p>
+              <li className="list">No Matching Results</li>
             ))}
         </ul>
       </div>
