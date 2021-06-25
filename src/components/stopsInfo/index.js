@@ -1,3 +1,3 @@
-import StopsInfo from "./stopsInfo";
+import StopsInfo from "./StopsInfo";
 
 export default StopsInfo;

@@ -1,8 +1,29 @@
 .App-Body {
-  /* background-color: #282c34; */
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
   color: #000;
-  padding: 20px 40px;
+  padding: 40px;
   text-align: left;
+}
+
+.App-Header {
+  background-color: #20232a;
+  color: #61dafb;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  min-height: 60px;
+}
+
+.App-Header-Context {
+  left: 18px;
+  position: relative;
+  margin: 10px;
+}
+
+.App-AutoComplete-Spinner {
+  display: block;
+  position: relative;
 }

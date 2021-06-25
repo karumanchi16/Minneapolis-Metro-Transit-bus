@@ -2,8 +2,9 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import "./AutoComplete.css";
 
-function AutoComplete({ defaultValue = "", onChange, options = [], flag }) {
-  const getValue = (option) => (option && flag ? option[flag] : option) || "";
+function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
+  const getValue = (option) =>
+    (option && objKey ? option[objKey] : option) || "";
   const [inputValue, setInputValue] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [cursor, setCursor] = useState(-1);

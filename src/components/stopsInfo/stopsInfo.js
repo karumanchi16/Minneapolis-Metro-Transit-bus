@@ -1,30 +1,39 @@
+import "./StopsInfo";
 const StopsInfo = ({ departures = [], stops = [] }) => {
-  console.log(stops, departures);
   return (
     <>
       {stops.length && (
         <>
-          <span>
-            <p>{stops[0].description}</p>
-            <p>Stop #: {stops[0].stop_id}</p>
-          </span>
-          <span>
-            <p>ROUTE</p>
-            <p>DESTINATION</p>
-            <p>DEPARTS</p>
-          </span>
-          {departures.length &&
-            departures.map(
-              ({ route_short_name, description, departure_text }) => {
-                return (
-                  <span>
-                    <p>{route_short_name}</p>
-                    <p>{description}</p>
-                    <p>{departure_text}</p>
-                  </span>
-                );
-              }
-            )}
+          <table>
+            <tr>
+              <th>{stops[0].description}</th>
+              <th>Stop #: {stops[0].stop_id}</th>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <th>ROUTE</th>
+              <th>DESTINATION</th>
+              <th>DEPARTS</th>
+            </tr>
+            {departures &&
+              departures.map(
+                ({
+                  route_short_name,
+                  description,
+                  departure_text,
+                  trip_id,
+                }) => {
+                  return (
+                    <tr key={trip_id}>
+                      <td>{route_short_name}</td>
+                      <td>{description}</td>
+                      <td>{departure_text}</td>
+                    </tr>
+                  );
+                }
+              )}
+          </table>
         </>
       )}
     </>
