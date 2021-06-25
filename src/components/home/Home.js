@@ -85,11 +85,13 @@ function Home() {
     setStopsInfo([]);
   };
 
+  useEffect(() => {
+    setStopsInfo([]);
+  }, [stop?.place_code]);
+
   return (
     <>
-      <h3 className="App-Body-Header">
-        Select a Route and Direction to get the stops list
-      </h3>
+      <h3 className="App-Body-Header">Real-time Departures</h3>
       <label>Route</label>
       <div className="App-AutoComplete-Spinner">
         <AutoComplete
@@ -128,7 +130,11 @@ function Home() {
         disabled={route && direction && stop ? false : true}
       />
       <Button onClick={handleClear} label={"Clear"} size={"large"} />
-      {isStopsInfoLoading && <Spinner />}
+      {isStopsInfoLoading && (
+        <div style={{ minHeight: "100vh" }}>
+          <Spinner />
+        </div>
+      )}
       {route &&
         direction &&
         stop &&

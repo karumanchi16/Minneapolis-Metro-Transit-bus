@@ -1,21 +1,21 @@
-import "./StopsInfo";
+import "./StopsInfo.css";
 const StopsInfo = ({ departures = [], stops = [] }) => {
   return (
     <>
       {stops.length && (
-        <>
+        <div className="Stop-Card">
+          <div className="Stop-Info">
+            <h3 className="Stop-Header">{stops[0].description}</h3>
+            <p className="Stop-Id"> Stop #: {stops[0].stop_id}</p>
+          </div>
           <table>
-            <tr>
-              <th>{stops[0].description}</th>
-              <th>Stop #: {stops[0].stop_id}</th>
-            </tr>
-          </table>
-          <table>
-            <tr>
-              <th>ROUTE</th>
-              <th>DESTINATION</th>
-              <th>DEPARTS</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>ROUTE</th>
+                <th>DESTINATION</th>
+                <th>DEPARTS</th>
+              </tr>
+            </thead>
             {departures &&
               departures.map(
                 ({
@@ -28,13 +28,13 @@ const StopsInfo = ({ departures = [], stops = [] }) => {
                     <tr key={trip_id}>
                       <td>{route_short_name}</td>
                       <td>{description}</td>
-                      <td>{departure_text}</td>
+                      <td>{departure_text} Min</td>
                     </tr>
                   );
                 }
               )}
           </table>
-        </>
+        </div>
       )}
     </>
   );

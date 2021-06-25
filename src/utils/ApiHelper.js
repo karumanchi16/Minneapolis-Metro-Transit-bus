@@ -3,7 +3,6 @@ export function ApiHelper(url, method) {
     method: method,
     withCredentials: true,
     headers: {
-      "X-FP-API-KEY": "chaptoken",
       "Content-Type": "application/json",
     },
   })

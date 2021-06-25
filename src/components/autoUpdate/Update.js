@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../button";
 
 const Update = ({ updatedTime, callback }) => {
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(25);
 
   useEffect(() => {
     let timerFuc;
@@ -10,7 +10,7 @@ const Update = ({ updatedTime, callback }) => {
       timerFuc = setTimeout(() => setTimer(timer - 1), 1000);
     } else {
       callback();
-      setTimer(30);
+      setTimer(25);
     }
     return () => {
       clearTimeout(timerFuc);

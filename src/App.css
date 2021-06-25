@@ -6,6 +6,10 @@
   text-align: left;
 }
 
+.App-Body-Header {
+  text-align: center;
+}
+
 .App-Header {
   background-color: #20232a;
   color: #61dafb;
