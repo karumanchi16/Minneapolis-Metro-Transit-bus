@@ -1,3 +1,2 @@
-import StopsInfo from "./StopsInfo";
-
+import StopsInfo from "./StopsInfo.js";
 export default StopsInfo;
