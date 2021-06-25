@@ -5,7 +5,7 @@ import AutoComplete from "../autoComplete";
 import Update from "../autoUpdate";
 import Button from "../button";
 import Spinner from "../loadingSpinner";
-import StopsInfo from "../stopsInfo";
+import StopsInfo from "../stopInfo";
 const styles = { position: "absolute", left: "122px", top: "15px" };
 function Home() {
   const [route, setRoute] = useState(null);
