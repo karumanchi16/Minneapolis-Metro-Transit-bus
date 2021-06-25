@@ -2,13 +2,11 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import "./AutoComplete.css";
 
-function AutoComplete({ defaultValue = "", onChange, options = [] }) {
-  const getValue = (option) => option.value || option;
-
-  const [inputValue, setInputValue] = useState(() => getValue(defaultValue));
+function AutoComplete({ defaultValue = "", onChange, options = [], flag }) {
+  const getValue = (option) => (option && flag ? option[flag] : option) || "";
+  const [inputValue, setInputValue] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [cursor, setCursor] = useState(-1);
-
   const autocompleteContainerRef = useRef(null);
   const optionsListRef = useRef(null);
 
@@ -28,7 +26,9 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
     if (!inputValue) return options;
     setCursor(-1);
     scrollView(0);
-    return options.filter((option) => getValue(option).includes(inputValue));
+    return options.filter((option) =>
+      getValue(option).toLowerCase().includes(inputValue)
+    );
   }, [inputValue, options]);
 
   const handleOnClick = (_) => setIsVisible(true);
@@ -80,6 +80,10 @@ function AutoComplete({ defaultValue = "", onChange, options = [] }) {
     const optionList = Array.from(optionsListRef.current.children);
     optionList[cursor] && scrollView(optionList[cursor].offsetTop);
   }, [cursor]);
+
+  useEffect(() => {
+    setInputValue(getValue(defaultValue));
+  }, [defaultValue]);
 
   useEffect(() => {
     window.addEventListener("mousedown", handleClickOutside);
