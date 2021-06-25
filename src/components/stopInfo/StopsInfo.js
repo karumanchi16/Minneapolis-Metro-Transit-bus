@@ -16,7 +16,7 @@ const StopsInfo = ({ departures = [], stops = [] }) => {
                 <th>DEPARTS</th>
               </tr>
             </thead>
-            {departures &&
+            {departures.length ? (
               departures.map(
                 ({
                   route_short_name,
@@ -32,7 +32,12 @@ const StopsInfo = ({ departures = [], stops = [] }) => {
                     </tr>
                   );
                 }
-              )}
+              )
+            ) : (
+              <tr>
+                <td>Stop closed</td>
+              </tr>
+            )}
           </table>
         </div>
       )}

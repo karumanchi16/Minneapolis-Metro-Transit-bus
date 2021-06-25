@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { ApiHelper } from "../../utils/ApiHelper";
+import { ApiHelper, GET } from "../../utils/ApiHelper";
 import AutoComplete from "../autoComplete";
 import Update from "../autoUpdate";
 import Button from "../button";
@@ -22,9 +22,7 @@ function Home() {
 
   const getRoutes = async () => {
     setIsRoutesLoading(true);
-    const data = await ApiHelper(
-      "https://svc.metrotransit.org/nextripv2/routes"
-    );
+    const data = await ApiHelper("routes", GET);
     setRoutes(data);
     setIsRoutesLoading(false);
   };
@@ -35,9 +33,7 @@ function Home() {
 
   const getDirections = async () => {
     setIsDirectionsLoading(true);
-    const data = await ApiHelper(
-      `https://svc.metrotransit.org/nextripv2/directions/${route.route_id}`
-    );
+    const data = await ApiHelper(`directions/${route.route_id}`, GET);
     setDirections(data);
     setIsDirectionsLoading(false);
   };
@@ -45,8 +41,8 @@ function Home() {
   const getStops = async () => {
     setIsStopsLoading(true);
     const data = await ApiHelper(
-      `https://svc.metrotransit.org/nextripv2/stops/${route.route_id}/${direction.direction_id}`,
-      "GET"
+      `stops/${route.route_id}/${direction.direction_id}`,
+      GET
     );
     setStops(data);
     setIsStopsLoading(false);
@@ -69,8 +65,8 @@ function Home() {
   const getStopInfo = async () => {
     setIsStopsInfoLoading(true);
     const data = await ApiHelper(
-      `https://svc.metrotransit.org/nextripv2/${route.route_id}/${direction.direction_id}/${stop.place_code}`,
-      "GET"
+      `${route.route_id}/${direction.direction_id}/${stop.place_code}`,
+      GET
     );
     setStopsInfo(data);
     setIsStopsInfoLoading(false);
