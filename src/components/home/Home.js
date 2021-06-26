@@ -7,6 +7,7 @@ import Button from "../button";
 import Spinner from "../loadingSpinner";
 import StopsInfo from "../stopInfo";
 const styles = { position: "absolute", left: "122px", top: "15px" };
+const logError = (e) => console.log(e);
 function Home() {
   const [route, setRoute] = useState(null);
   const [direction, setDirection] = useState("");
@@ -28,7 +29,11 @@ function Home() {
   };
 
   useEffect(() => {
-    getRoutes();
+    try {
+      getRoutes();
+    } catch (e) {
+      logError(e);
+    }
   }, []);
 
   const getDirections = async () => {
@@ -52,23 +57,39 @@ function Home() {
     setDirection("");
     setDirections([]);
     setStopsInfo([]);
-    if (route?.route_id) getDirections();
+    if (route?.route_id) {
+      try {
+        getDirections();
+      } catch (e) {
+        logError(e);
+      }
+    }
   }, [route?.route_id]);
 
   useEffect(() => {
     setStop("");
     setStops([]);
     setStopsInfo([]);
-    if (route?.route_id && direction?.direction_id > -1) getStops();
+    if (route?.route_id && direction?.direction_id > -1) {
+      try {
+        getStops();
+      } catch (e) {
+        logError(e);
+      }
+    }
   }, [direction.direction_id]);
 
   const getStopInfo = async () => {
     setIsStopsInfoLoading(true);
-    const data = await ApiHelper(
-      `${route.route_id}/${direction.direction_id}/${stop.place_code}`,
-      GET
-    );
-    setStopsInfo(data);
+    try {
+      const data = await ApiHelper(
+        `${route.route_id}/${direction.direction_id}/${stop.place_code}`,
+        GET
+      );
+      setStopsInfo(data);
+    } catch (e) {
+      logError(e);
+    }
     setIsStopsInfoLoading(false);
   };
 
