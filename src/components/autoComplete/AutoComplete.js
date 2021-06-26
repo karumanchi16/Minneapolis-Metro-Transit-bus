@@ -28,7 +28,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
     setCursor(-1);
     scrollView(0);
     return options.filter((option) =>
-      getValue(option).toLowerCase().includes(inputValue)
+      getValue(option).toLowerCase().includes(inputValue?.toLocaleLowerCase())
     );
   }, [inputValue, options]);
 
@@ -105,6 +105,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
             onChange={handleOnChange}
             onClick={handleOnClick}
             onKeyDown={handleOnKeyDown}
+            data-testid={"input"}
           />
         </div>
         <div className="Input-Buttons-Container">
@@ -114,7 +115,11 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
           >
             &#9660;
           </button>
-          <button className="Auto-Complete-Clear" onClick={handleClearButton}>
+          <button
+            className="Auto-Complete-Clear"
+            onClick={handleClearButton}
+            data-testid={"clearBtn"}
+          >
             &#10006;
           </button>
         </div>
