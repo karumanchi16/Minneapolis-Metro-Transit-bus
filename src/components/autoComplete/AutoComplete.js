@@ -121,6 +121,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
             onClick={handleOnClick}
             onKeyDown={handleOnKeyDown}
             data-testid={"input"}
+            onFocus={handleOnClick}
           />
         </div>
         <div className="Input-Buttons-Container">
