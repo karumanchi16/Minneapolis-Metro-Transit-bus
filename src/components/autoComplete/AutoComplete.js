@@ -28,7 +28,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
     setCursor(-1);
     scrollView(0);
     return options.filter((option) =>
-      getValue(option).toLowerCase().includes(inputValue?.toLocaleLowerCase())
+      getValue(option).toLowerCase().includes(inputValue?.toLowerCase())
     );
   }, [inputValue, options]);
 
@@ -69,9 +69,24 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
         : setIsVisible(true);
     }
     if (e.key === "Enter") {
-      onSelection(filterdOptions[cursor]);
+      if (cursor === -1) {
+        let selectedOption = options.filter(
+          (option) =>
+            getValue(option).toLowerCase() === inputValue?.toLowerCase()
+        );
+        if (selectedOption?.length) {
+          setInputValue(selectedOption[0][objKey]);
+          onChange(selectedOption[0]);
+          setIsVisible(false);
+        }
+      } else {
+        onSelection(filterdOptions[cursor]);
+      }
     }
     if (e.key === "Escape") {
+      setIsVisible(false);
+    }
+    if (e.key === "Tab" && isVisible) {
       setIsVisible(false);
     }
   };
