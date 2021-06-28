@@ -1,7 +1,7 @@
-const domain = "https://svc.metrotransit.org/nextripv2/";
+export const domain = "https://svc.metrotransit.org/nextripv2/";
 export const GET = "GET";
 
-export function ApiHelper(url, method) {
+export function apiHelper(url, method) {
   return fetch(domain + url, {
     method: method,
     withCredentials: true,

@@ -1,5 +1,4 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import React from "react";
 import AutoComplete from ".";
 import userEvent from "@testing-library/user-event";
 
@@ -9,6 +8,7 @@ describe("AutoComplete render", () => {
   window.HTMLElement.prototype.scrollTo = function () {};
   let input;
   let clearBtn;
+  let openBtn;
   beforeEach(() => {
     const { getByTestId } = render(
       <AutoComplete
@@ -19,6 +19,7 @@ describe("AutoComplete render", () => {
     );
     clearBtn = getByTestId("clearBtn");
     input = getByTestId("input");
+    openBtn = getByTestId("openBtn");
   });
 
   it("default value", () => {
@@ -32,38 +33,45 @@ describe("AutoComplete render", () => {
   });
 
   it("esc key", async () => {
-    userEvent.type(input, "{arrowdown}");
-    userEvent.type(input, "{esc}");
+    userEvent.type(input, "{arrowdown}{esc}");
     expect(input.value).toEqual("two");
   });
 
   it("backspace key", () => {
-    userEvent.type(input, "{backspace}");
-    userEvent.type(input, "{backspace}");
-    userEvent.type(input, "{backspace}");
+    userEvent.type(input, "{backspace}{backspace}{backspace}");
     expect(input.value).toEqual("");
   });
 
   it("ArrowUp key", () => {
     fireEvent.change(input, { target: { value: "" } });
-    userEvent.type(input, "{arrowdown}");
-    userEvent.type(input, "{arrowup}");
-    userEvent.type(input, "{enter}");
+    userEvent.type(input, "{arrowdown}{arrowup}{enter}");
     expect(input.value).toEqual("one");
   });
 
   it("ArrowDown key", () => {
     fireEvent.change(input, { target: { value: "" } });
-    userEvent.type(input, "{arrowdown}");
-    userEvent.type(input, "{arrowdown}");
-    userEvent.type(input, "{arrowdown}");
-    userEvent.type(input, "{enter}");
+    userEvent.type(input, "{arrowdown}{arrowdown}{arrowdown}{enter}");
     expect(input.value).toEqual("three");
   });
 
-  it("unfocus and list", () => {
+  it("ArrowDown and ArrowUp key to max limit", () => {
+    fireEvent.change(input, { target: { value: "" } });
+    userEvent.type(
+      input,
+      "{arrowdown}{arrowdown}{arrowdown}{arrowdown}{arrowup}{arrowup}{arrowup}{arrowup}{enter}"
+    );
+    expect(input.value).toEqual("one");
+  });
+
+  it("unfocus and remove list options by click", () => {
     input.focus();
     userEvent.click(document.body);
+    expect(input).not.toHaveFocus();
+  });
+
+  it("unfocus and remove list options by tab", () => {
+    input.focus();
+    userEvent.tab();
     expect(input).not.toHaveFocus();
   });
 
@@ -77,5 +85,28 @@ describe("AutoComplete render", () => {
     userEvent.type(input, "{arrowdown}");
     fireEvent.click(screen.getByText("three"));
     expect(input.value).toEqual("three");
+  });
+
+  it("handle type and enter key", () => {
+    userEvent.type(input, "three{enter}");
+    expect(input.value).toEqual("twothree");
+    fireEvent.click(clearBtn);
+    userEvent.type(input, "three{enter}");
+    expect(input.value).toEqual("three");
+  });
+
+  it("handleCaretButton", () => {
+    fireEvent.click(openBtn);
+    expect(openBtn).toHaveClass("open");
+  });
+});
+
+describe("AutoComplete render with empty options", () => {
+  it("render autocomplete", () => {
+    const onChange = jest.fn();
+    window.HTMLElement.prototype.scrollTo = function () {};
+    const { getByTestId } = render(<AutoComplete onChange={onChange} />);
+    const input = getByTestId("input");
+    expect(input.value).toEqual("");
   });
 });

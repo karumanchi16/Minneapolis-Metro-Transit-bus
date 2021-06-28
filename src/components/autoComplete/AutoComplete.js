@@ -1,8 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef, useMemo } from "react";
+import toLowerCase from "../../utils/Tolowercase";
 import "./AutoComplete.css";
 
-function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
+function AutoComplete({
+  defaultValue = "",
+  onChange,
+  options = [],
+  objKey,
+  dataTestid = "input",
+}) {
   const getValue = (option) =>
     (option && objKey ? option[objKey] : option) || "";
   const [inputValue, setInputValue] = useState("");
@@ -27,8 +34,9 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
     if (!inputValue) return options;
     setCursor(-1);
     scrollView(0);
+    const lowerCaseInputValue = inputValue?.toLowerCase();
     return options.filter((option) =>
-      getValue(option).toLowerCase().includes(inputValue?.toLowerCase())
+      toLowerCase(getValue(option)).includes(lowerCaseInputValue)
     );
   }, [inputValue, options]);
 
@@ -70,9 +78,9 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
     }
     if (e.key === "Enter") {
       if (cursor === -1) {
+        const lowerCaseInputValue = toLowerCase(inputValue);
         let selectedOption = options.filter(
-          (option) =>
-            getValue(option).toLowerCase() === inputValue?.toLowerCase()
+          (option) => toLowerCase(getValue(option)) === lowerCaseInputValue
         );
         if (selectedOption?.length) {
           setInputValue(selectedOption[0][objKey]);
@@ -120,7 +128,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
             onChange={handleOnChange}
             onClick={handleOnClick}
             onKeyDown={handleOnKeyDown}
-            data-testid={"input"}
+            data-testid={dataTestid}
             onFocus={handleOnClick}
           />
         </div>
@@ -128,6 +136,7 @@ function AutoComplete({ defaultValue = "", onChange, options = [], objKey }) {
           <button
             className={`Auto-Complete-Caret ${isVisible ? "open" : "close"}`}
             onClick={handleCaretButton}
+            data-testid={"openBtn"}
           >
             &#9660;
           </button>

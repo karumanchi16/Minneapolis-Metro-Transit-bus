@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { ApiHelper, GET } from "../../utils/ApiHelper";
+import { apiHelper, GET } from "../../utils/ApiHelper";
 import AutoComplete from "../autoComplete";
 import Update from "../autoUpdate";
 import Button from "../button";
@@ -23,7 +23,7 @@ function Home() {
 
   const getRoutes = async () => {
     setIsRoutesLoading(true);
-    const data = await ApiHelper("routes", GET);
+    const data = await apiHelper("routes", GET);
     setRoutes(data);
     setIsRoutesLoading(false);
   };
@@ -38,14 +38,14 @@ function Home() {
 
   const getDirections = async () => {
     setIsDirectionsLoading(true);
-    const data = await ApiHelper(`directions/${route.route_id}`, GET);
+    const data = await apiHelper(`directions/${route.route_id}`, GET);
     setDirections(data);
     setIsDirectionsLoading(false);
   };
 
   const getStops = async () => {
     setIsStopsLoading(true);
-    const data = await ApiHelper(
+    const data = await apiHelper(
       `stops/${route.route_id}/${direction.direction_id}`,
       GET
     );
@@ -82,7 +82,7 @@ function Home() {
   const getStopInfo = async () => {
     setIsStopsInfoLoading(true);
     try {
-      const data = await ApiHelper(
+      const data = await apiHelper(
         `${route.route_id}/${direction.direction_id}/${stop.place_code}`,
         GET
       );
@@ -116,6 +116,7 @@ function Home() {
           defaultValue={route}
           onChange={setRoute}
           objKey={"route_label"}
+          dataTestid={"route"}
         />
         {isRoutesLoading && <Spinner styles={{ ...styles }} />}
       </div>
@@ -126,6 +127,7 @@ function Home() {
           defaultValue={direction}
           onChange={setDirection}
           objKey={"direction_name"}
+          dataTestid={"direction"}
         />
         {isDirectionsLoading && <Spinner styles={{ ...styles }} />}
       </div>
@@ -136,6 +138,7 @@ function Home() {
           defaultValue={stop}
           onChange={setStop}
           objKey={"description"}
+          dataTestid={"stop"}
         />
         {isStopsLoading && <Spinner styles={{ ...styles }} />}
       </div>
